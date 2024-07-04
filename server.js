@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'frontend/build')));
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
 // Serve the React app's index.html file on all other routes
 app.get('*', (req, res) => {
@@ -396,8 +396,7 @@ app.post('/orders/:orderId/products', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
