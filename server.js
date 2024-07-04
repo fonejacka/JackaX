@@ -5,19 +5,22 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
-
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const mongoUri = 'mongodb+srv://Sam:Popadopilis1!@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX';
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
+
+// Use environment variable for MongoDB URI
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1%21@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX';
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
 const productSchema = new mongoose.Schema({
   id: Number,
@@ -50,12 +53,11 @@ const orderSchema = new mongoose.Schema({
     sku: String,
     price: String,
     images: Array,
-    quantity: { type: Number, default: 1 } // Add default value
-  }],
+    quantity: { type: Number, default: 1 }
+  }]
 });
 
 const Order = mongoose.model('Order', orderSchema);
-
 
 const counterSchema = new mongoose.Schema({
   _id: String,
@@ -316,8 +318,8 @@ app.delete('/orders/:orderId', async (req, res) => {
     console.error(`Error deleting order ${orderId}:`, error);
     res.status(500).send(error.toString());
   }
-  
 });
+
 app.put('/orders/:orderId/products/:productId', async (req, res) => {
   const { orderId, productId } = req.params;
   const { quantity } = req.body;
@@ -394,9 +396,6 @@ app.post('/orders/:orderId/products', async (req, res) => {
   }
 });
 
-
-
-
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log('Server is running on port 3000');
 });
