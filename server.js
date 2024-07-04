@@ -18,7 +18,7 @@ app.get('*', (req, res) => {
 
 // Use environment variable for MongoDB URI
 const mongoUri = process.env.MONGODB_URI || 'your_mongodb_uri';
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoUri)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log('Failed to connect to MongoDB', err));
 
@@ -88,9 +88,6 @@ const auth = {
   username: consumerKey,
   password: consumerSecret
 };
-
-let cachedUsers = [];
-let lastFetchTime = null;
 
 const fetchAllPages = async (url, params, auth) => {
   let page = 1;
