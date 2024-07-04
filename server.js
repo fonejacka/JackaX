@@ -18,7 +18,7 @@ app.get('*', (req, res) => {
 });
 
 // Use environment variable for MongoDB URI
-const mongoUri = process.env.MONGODB_URI || 'your_mongodb_uri';
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1!@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX" --app jacka';
 mongoose.connect(mongoUri)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log('Failed to connect to MongoDB', err));
