@@ -12,6 +12,7 @@ app.use(cors());
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
+// Serve the React app's index.html file on all other routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
