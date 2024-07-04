@@ -6,27 +6,41 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 3000; // Define a port for your application
+
 app.use(bodyParser.json());
 app.use(cors());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
+// Route to serve the React app's index.html for any path
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
 });
 
 // Use environment variable for MongoDB URI
 const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1%21@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX';
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
 
-  mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000, // Example of setting a timeout
+// Connect to MongoDB using mongoose
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Example of setting a timeout for server selection
+})
+.then(() => {
+  console.log('MongoDB connected successfully');
+  // Start the server after successfully connecting to MongoDB
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
   });
+})
+.catch(err => {
+  console.error('Error connecting to MongoDB:', err);
+  // Exit the process if MongoDB connection fails
+  process.exit(1);
+});
+
   
 
 const productSchema = new mongoose.Schema({
