@@ -22,14 +22,7 @@ mongoose.connect(mongoUri)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log('Failed to connect to MongoDB', err));
 
-
 // Define your schemas and models here...
-
-// Your existing API routes...
-
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running on port', process.env.PORT || 3000);
-});
 
 const productSchema = new mongoose.Schema({
   id: Number,
