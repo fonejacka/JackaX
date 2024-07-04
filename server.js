@@ -22,6 +22,13 @@ mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
+  mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000, // Example of setting a timeout
+  });
+  
+
 const productSchema = new mongoose.Schema({
   id: Number,
   name: String,
