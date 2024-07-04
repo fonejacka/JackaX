@@ -10,20 +10,17 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Serve the React app's index.html file on all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
 // Use environment variable for MongoDB URI
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1!@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX" --app jacka';
-mongoose.connect(mongoUri)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log('Failed to connect to MongoDB', err));
-
-// Define your schemas and models here...
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1%21@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX';
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
 const productSchema = new mongoose.Schema({
   id: Number,
@@ -80,8 +77,8 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-const consumerKey = 'your_consumer_key';
-const consumerSecret = 'your_consumer_secret';
+const consumerKey = 'ck_02cb945aa64945755aa555a52161163d76d65c76';
+const consumerSecret = 'cs_cea4d134ad3ad9f15c584a7fa12aa44c2c4529e5';
 const baseUrl = 'https://polarxornaments.co.uk/wp-json/wc/v3';
 const wpBaseUrl = 'https://polarxornaments.co.uk/wp-json/wp/v2';
 
@@ -89,6 +86,9 @@ const auth = {
   username: consumerKey,
   password: consumerSecret
 };
+
+let cachedUsers = [];
+let lastFetchTime = null;
 
 const fetchAllPages = async (url, params, auth) => {
   let page = 1;
@@ -396,7 +396,6 @@ app.post('/orders/:orderId/products', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server is running on port 3000');
 });
