@@ -17,7 +17,7 @@ app.get('*', (req, res) => {
 });
 
 // Use environment variable for MongoDB URI
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1%21@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX';
+const mongoUri = process.env.MONGODB_URI || 'your_mongodb_uri';
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log('Failed to connect to MongoDB', err));
@@ -79,8 +79,8 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-const consumerKey = 'ck_02cb945aa64945755aa555a52161163d76d65c76';
-const consumerSecret = 'cs_cea4d134ad3ad9f15c584a7fa12aa44c2c4529e5';
+const consumerKey = 'your_consumer_key';
+const consumerSecret = 'your_consumer_secret';
 const baseUrl = 'https://polarxornaments.co.uk/wp-json/wc/v3';
 const wpBaseUrl = 'https://polarxornaments.co.uk/wp-json/wp/v2';
 
