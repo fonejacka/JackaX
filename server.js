@@ -10,12 +10,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Serve static files from the React app
-const buildPath = path.join(__dirname, 'frontend', 'build');
-app.use(express.static(buildPath));
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
-// Fallback to the index.html file for SPA
 app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
 });
 
 // Use environment variable for MongoDB URI
@@ -23,7 +21,7 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1%21@p
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
-
+  
 
 const productSchema = new mongoose.Schema({
   id: Number,
