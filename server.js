@@ -18,9 +18,12 @@ app.get('*', (req, res) => {
 
 // Use environment variable for MongoDB URI
 const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Sam:Popadopilis1%21@polarx.aad9alq.mongodb.net/?retryWrites=true&w=majority&appName=PolarX';
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
+mongoose.connect(mongoUri, {
+  serverSelectionTimeoutMS: 5000, // Wait up to 5 seconds for initial connection
+})
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.error('Error connecting to MongoDB:', err));
+
 
   
 
